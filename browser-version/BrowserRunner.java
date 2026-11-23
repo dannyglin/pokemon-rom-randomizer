@@ -12,15 +12,15 @@ import java.util.zip.ZipOutputStream;
 /** Runs UPR-ZX against CheerpJ's browser virtual filesystem. */
 public final class BrowserRunner {
   public static void main(String[] a) throws Exception {
-    if (a.length != 10) throw new IllegalArgumentException("Expected input, extension, six rules, output and working path");
+    if (a.length != 12) throw new IllegalArgumentException("Expected input, extension, eight rules, output and working path");
     String input = a[0];
     String extension = a[1];
-    String output = a[8];
-    String working = a[9];
+    String output = a[10];
+    String working = a[11];
     Path statusPath = Path.of(output + ".status");
     String settings = "/files/pocket-rules.rnqs";
     try {
-      SettingsWriter.main(new String[]{settings, a[2], a[3], a[4], a[5], a[6], a[7]});
+      SettingsWriter.main(new String[]{settings, a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]});
       boolean is3ds = ".3ds".equalsIgnoreCase(extension);
       String romOutput = is3ds ? working : output;
       String[] cli = is3ds

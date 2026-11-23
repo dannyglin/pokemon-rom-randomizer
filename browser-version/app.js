@@ -93,7 +93,7 @@ button.addEventListener('click', async () => {
       // Cloudflare Pages does not yet return 206 responses for Range requests.
       // CheerpJ can run JARs from /str, so stage the small hosted engine files
       // in memory and avoid its HTTP range loader entirely.
-      await loadJarIntoMemory('/browser-tools.jar', '/str/browser-tools.jar');
+      await loadJarIntoMemory('/browser-tools.jar?v=2026-11-23-ability-moves', '/str/browser-tools.jar');
       await loadJarIntoMemory('/PokeRandoZX.jar', '/str/PokeRandoZX.jar');
       runtimeReady = true;
     }
@@ -132,6 +132,8 @@ button.addEventListener('click', async () => {
       flags.wild || 'false',
       flags.staticPokemon || 'false',
       flags.items || 'false',
+      flags.abilities || 'false',
+      flags.movesets || 'false',
       outputPath,
       workingPath,
     );

@@ -12,4 +12,6 @@ Upload the contents of `site/` to a static host such as Cloudflare Pages. The fi
 - `.3ds` output as a LayeredFS ZIP. Use a decrypted ROM.
 - Large ROMs may require several gigabytes of available browser memory.
 
+The browser page can randomize starters, evolutions, trainer teams, wild encounters, special encounters, items, abilities, and level-up movesets. The ability and moveset options use the randomizer's unrestricted random modes.
+
 The randomizer is Universal Pokemon Randomizer ZX v4.6.1 under GPL-3.0. Its source is available from the upstream Ajarmar repository. CheerpJ is used under its community license; the page includes its required attribution.

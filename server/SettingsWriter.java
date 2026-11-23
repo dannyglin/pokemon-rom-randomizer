@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 /** Creates the randomizer's native .rnqs settings from the website's simple toggles. */
 public final class SettingsWriter {
   public static void main(String[] args) throws Exception {
-    if (args.length != 7) throw new IllegalArgumentException("Expected output plus six rule flags");
+    if (args.length != 9) throw new IllegalArgumentException("Expected output plus eight rule flags");
     Settings s = new Settings();
     // A fresh Settings object leaves these serialization fields unset. The
     // desktop GUI normally fills them after a ROM is loaded, but the browser
@@ -18,6 +18,8 @@ public final class SettingsWriter {
     boolean wild = Boolean.parseBoolean(args[4]);
     boolean staticPokemon = Boolean.parseBoolean(args[5]);
     boolean items = Boolean.parseBoolean(args[6]);
+    boolean abilities = Boolean.parseBoolean(args[7]);
+    boolean movesets = Boolean.parseBoolean(args[8]);
     if (starters) s.setStartersMod(false, false, true, false);
     if (evolutions) { s.setEvolutionsMod(false, true, false); s.setEvosSimilarStrength(false); }
     if (trainers) {
@@ -33,6 +35,8 @@ public final class SettingsWriter {
     }
     if (staticPokemon) s.setStaticPokemonMod(false, true, false, false);
     if (items) s.setFieldItemsMod(false, false, true, false); 
+    if (abilities) s.setAbilitiesMod(false, true);
+    if (movesets) s.setMovesetsMod(false, false, true, false);
     try (FileOutputStream out = new FileOutputStream(args[0])) { s.write(out); }
   }
 }
