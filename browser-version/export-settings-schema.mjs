@@ -359,16 +359,72 @@ const schema = {
   sections,
   defaults: DEFAULT_VALUES,
   recommended: {
+    // Recommendations opt in only to the requested checkboxes, independently of
+    // the general form defaults. Saved preferences still override this profile.
+    ...Object.fromEntries(Object.entries(DEFAULT_VALUES)
+      .filter(([, value]) => typeof value === "boolean")
+      .map(([name]) => [name, false])),
+
+    baseStatisticsMod: "UNCHANGED",
+    updateBaseStats: true,
+    updateBaseStatsToGeneration: 0,
+    standardizeEXPCurves: true,
+    selectedEXPCurve: "MEDIUM_FAST",
+    expCurveMod: "ALL",
+    typesMod: "UNCHANGED",
+    abilitiesMod: "RANDOMIZE",
+    allowWonderGuard: true,
+    evolutionsMod: "UNCHANGED",
+    changeImpossibleEvolutions: true,
+    makeEvolutionsEasier: true,
+    removeTimeBasedEvolutions: true,
+
     startersMod: "COMPLETELY_RANDOM",
-    evolutionsMod: "RANDOM",
-    evosSimilarStrength: false,
+    customStarters: [0, 0, 0],
+    allowStarterAltFormes: true,
+    staticPokemonMod: "RANDOM_MATCHING",
+    allowStaticAltFormes: true,
+    inGameTradesMod: "RANDOMIZE_GIVEN_AND_REQUESTED",
+    randomizeInGameTradesNicknames: true,
+    randomizeInGameTradesItems: true,
+
+    updateMoves: true,
+    updateMovesToGeneration: 0,
+    movesetsMod: "UNCHANGED",
+    guaranteedMoveCount: 2,
+
     trainersMod: "RANDOM",
-    trainersUsePokemonOfSimilarStrength: false,
+    rivalCarriesStarterThroughout: true,
+    trainersBlockLegendaries: true,
+    trainersBlockEarlyWonderGuard: true,
     trainersForceFullyEvolved: true,
-    trainersForceFullyEvolvedLevel: 30,
+    trainersForceFullyEvolvedLevel: 34,
+    allowTrainerAlternateFormes: true,
+    swapTrainerMegaEvos: true,
+    shinyChance: true,
+    totemPokemonMod: "UNCHANGED",
+    allyPokemonMod: "UNCHANGED",
+    auraMod: "UNCHANGED",
+
     wildPokemonMod: "RANDOM",
     wildPokemonRestrictionMod: "NONE",
-    blockWildLegendaries: false,
+    randomizeWildPokemonHeldItems: true,
+    allowWildAltFormes: true,
+    minimumCatchRateLevel: 1,
+
+    tmsMod: "UNCHANGED",
+    tmsHmsCompatibilityMod: "UNCHANGED",
+    moveTutorMovesMod: "UNCHANGED",
+    moveTutorsCompatibilityMod: "UNCHANGED",
+    fieldItemsMod: "RANDOM",
+    banBadRandomFieldItems: true,
+    shopItemsMod: "RANDOM",
+    banBadRandomShopItems: true,
+    pickupItemsMod: "RANDOM",
+    banBadRandomPickupItems: true,
+
+    // Running indoors and running without first obtaining the running shoes.
+    currentMiscTweaks: (1 << 4) | (1 << 18),
   },
 };
 

@@ -327,7 +327,11 @@ function makeSettingsQuery() {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(settingsValues)) {
     if (key === 'updatedFromOldVersion' || key === 'currentRestrictions' || key === 'generationMask' || key === 'allowEvolutionaryRelatives' || value === null || value === undefined) continue;
-    params.set(key, Array.isArray(value) ? value.join(',') : String(value));
+    // The form stores 0 for “Latest”; UPR-ZX requires an explicit generation.
+    // Its bundled GlobalConstants.HIGHEST_POKEMON_GEN is 9.
+    const isUpdateGeneration = key === 'updateBaseStatsToGeneration' || key === 'updateMovesToGeneration';
+    const engineValue = isUpdateGeneration && Number(value) === 0 ? 9 : value;
+    params.set(key, Array.isArray(engineValue) ? engineValue.join(',') : String(engineValue));
   }
   const generationMask = Number(settingsValues.generationMask ?? 127) & 127;
   const relativeBit = settingsValues.allowEvolutionaryRelatives ? 128 : 0;

@@ -12,7 +12,9 @@ Upload the contents of `site/` to a static host such as Cloudflare Pages. The fi
 - `.3ds` output as a LayeredFS ZIP. Use a decrypted ROM.
 - Large ROMs may require several gigabytes of available browser memory.
 
-The browser page can randomize starters, evolutions, trainer teams, wild encounters, special encounters, items, abilities, and level-up movesets. The ability and moveset options use the randomizer's unrestricted random modes.
+The browser page can randomize starters, evolutions, trainer teams, wild encounters, special encounters, items, abilities, and level-up movesets. The recommended profile randomizes abilities, starters, trainer teams, encounters, trades, and item pools, while **evolution lines and level-up moves stay unchanged**. It enables the impossible, difficult, and time-based evolution fixes, and fully evolves trainer Pokémon starting at level 34. Unsupported options are ignored by the engine for the selected game.
+
+New users start with the recommended profile. Returning users keep their saved preferences; **Restore recommended rules** explicitly replaces and saves those choices with the recommended profile. All recommendations remain editable before randomization. All seven generation checkboxes are selected, but they do not restrict the pool unless **Limit which generations can appear** is enabled.
 
 ## Full settings form
 
