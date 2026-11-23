@@ -17,7 +17,7 @@ const checkedSettings = [
   "changeImpossibleEvolutions", "makeEvolutionsEasier", "removeTimeBasedEvolutions",
   "allowStarterAltFormes", "allowStaticAltFormes",
   "randomizeInGameTradesNicknames", "randomizeInGameTradesItems", "updateMoves",
-  "rivalCarriesStarterThroughout", "trainersBlockLegendaries", "trainersBlockEarlyWonderGuard",
+  "rivalCarriesStarterThroughout", "trainersBlockEarlyWonderGuard",
   "trainersForceFullyEvolved", "allowTrainerAlternateFormes", "swapTrainerMegaEvos", "shinyChance",
   "randomizeWildPokemonHeldItems", "allowWildAltFormes",
   "banBadRandomFieldItems", "banBadRandomShopItems", "banBadRandomPickupItems",

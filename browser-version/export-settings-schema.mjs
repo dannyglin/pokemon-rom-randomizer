@@ -395,7 +395,6 @@ const schema = {
 
     trainersMod: "RANDOM",
     rivalCarriesStarterThroughout: true,
-    trainersBlockLegendaries: true,
     trainersBlockEarlyWonderGuard: true,
     trainersForceFullyEvolved: true,
     trainersForceFullyEvolvedLevel: 34,

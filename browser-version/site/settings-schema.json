@@ -2882,7 +2882,7 @@
     "rivalCarriesStarterThroughout": true,
     "trainersUsePokemonOfSimilarStrength": false,
     "trainersMatchTypingDistribution": false,
-    "trainersBlockLegendaries": true,
+    "trainersBlockLegendaries": false,
     "trainersBlockEarlyWonderGuard": true,
     "trainersEnforceDistribution": false,
     "trainersEnforceMainPlaythrough": false,
