@@ -1,5 +1,7 @@
 # Pocket Randomizer
 
+Link: https://pocket-randomizer.pages.dev/
+
 A simple browser interface for randomizing owned Pokémon game files. The site is static; randomization happens in a small local engine on each player's computer, so ROM files are not uploaded to GitHub Pages.
 
 ## Supported formats
