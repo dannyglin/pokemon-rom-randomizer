@@ -1,0 +1,2848 @@
+{
+  "sections": [
+    {
+      "id": "pokemon-traits",
+      "label": "Pokémon & evolutions",
+      "groups": [
+        {
+          "title": "Stats & growth",
+          "fields": [
+            {
+              "name": "baseStatisticsMod",
+              "label": "Change Pokémon stats",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "SHUFFLE",
+                    "label": "Shuffle each Pokémon’s stats (same total strength)"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Randomize each stat (can change total strength)"
+                  }
+                ]
+              },
+              "help": "Change how much a Pokémon’s HP, Attack, Defense, and other stats can change."
+            },
+            {
+              "name": "baseStatsFollowEvolutions",
+              "label": "Keep stat changes consistent across evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Use the base Pokémon’s stat changes as a guide for its evolutions.",
+              "when": {
+                "keys": [
+                  "baseStatisticsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": true,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "baseStatsFollowMegaEvolutions",
+              "label": "Keep stat changes consistent with Mega Evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Keep Mega Evolution stat changes related to the regular form.",
+              "when": {
+                "keys": [
+                  "baseStatisticsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": true,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "assignEvoStatsRandomly",
+              "label": "Give each evolution its own stat changes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Roll separate stats for each evolution instead of carrying the base form’s roll forward.",
+              "when": {
+                "keys": [
+                  "baseStatisticsMod",
+                  "baseStatsFollowEvolutions"
+                ],
+                "table": {
+                  "[\"UNCHANGED\",false]": false,
+                  "[\"UNCHANGED\",true]": false,
+                  "[\"SHUFFLE\",false]": false,
+                  "[\"SHUFFLE\",true]": true,
+                  "[\"RANDOM\",false]": false,
+                  "[\"RANDOM\",true]": true
+                }
+              }
+            },
+            {
+              "name": "updateBaseStats",
+              "label": "Use newer-generation stats",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Update existing Pokémon to newer official stats; this does not add new species."
+            },
+            {
+              "name": "updateBaseStatsToGeneration",
+              "label": "Update stats to",
+              "kind": {
+                "type": "select",
+                "options": [
+                  {
+                    "value": "0",
+                    "label": "Latest"
+                  },
+                  {
+                    "value": "6",
+                    "label": "Gen 6"
+                  },
+                  {
+                    "value": "7",
+                    "label": "Gen 7"
+                  },
+                  {
+                    "value": "8",
+                    "label": "Gen 8"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "updateBaseStats"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "standardizeEXPCurves",
+              "label": "Use a shared experience-growth rate",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Give selected Pokémon the same experience growth curve to make leveling more consistent."
+            },
+            {
+              "name": "selectedEXPCurve",
+              "label": "Experience-growth rate",
+              "kind": {
+                "type": "select",
+                "options": [
+                  {
+                    "value": "SLOW",
+                    "label": "Slow"
+                  },
+                  {
+                    "value": "MEDIUM_SLOW",
+                    "label": "Medium Slow"
+                  },
+                  {
+                    "value": "MEDIUM_FAST",
+                    "label": "Medium Fast"
+                  },
+                  {
+                    "value": "FAST",
+                    "label": "Fast"
+                  },
+                  {
+                    "value": "ERRATIC",
+                    "label": "Erratic"
+                  },
+                  {
+                    "value": "FLUCTUATING",
+                    "label": "Fluctuating"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "standardizeEXPCurves"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "expCurveMod",
+              "label": "Apply this to",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "LEGENDARIES",
+                    "label": "Legendaries Only"
+                  },
+                  {
+                    "value": "STRONG_LEGENDARIES",
+                    "label": "Strong Legendaries Only"
+                  },
+                  {
+                    "value": "ALL",
+                    "label": "All Pokémon"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "standardizeEXPCurves"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Types",
+          "fields": [
+            {
+              "name": "typesMod",
+              "label": "Change Pokémon types",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM_FOLLOW_EVOLUTIONS",
+                    "label": "Randomize types; usually keep them through evolutions"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Fully random types; evolutions can change type too"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "typesFollowMegaEvolutions",
+              "label": "Keep types consistent with Mega Evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Keep a Mega Evolution related to the regular form’s randomized type.",
+              "when": {
+                "keys": [
+                  "typesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_FOLLOW_EVOLUTIONS\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "dualTypeOnly",
+              "label": "Give every Pokémon two types",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Make randomized Pokémon dual-type instead of allowing single types.",
+              "when": {
+                "keys": [
+                  "typesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_FOLLOW_EVOLUTIONS\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Abilities",
+          "fields": [
+            {
+              "name": "abilitiesMod",
+              "label": "Change Pokémon abilities",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOMIZE",
+                    "label": "Randomize"
+                  }
+                ]
+              },
+              "minGen": 3,
+              "help": "Give Pokémon different abilities. The engine keeps Wonder Guard’s special rules in mind."
+            },
+            {
+              "name": "allowWonderGuard",
+              "label": "Allow Wonder Guard on randomized Pokémon",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Wonder Guard makes a Pokémon immune to most attacks. Allowing it can make some battles much harder.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "abilitiesFollowEvolutions",
+              "label": "Keep abilities consistent across evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Give a Pokémon’s regular evolutions related randomized abilities.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "abilitiesFollowMegaEvolutions",
+              "label": "Keep abilities consistent with Mega Evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Keep Mega Evolution abilities related to the regular form.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "banTrappingAbilities",
+              "label": "Exclude abilities that prevent switching",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid Arena Trap, Magnet Pull, and Shadow Tag in new ability slots.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "banNegativeAbilities",
+              "label": "Exclude abilities with only negative effects",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid abilities whose main effect is harmful to their user.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "banBadAbilities",
+              "label": "Exclude weak or harmful abilities",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid abilities the randomizer classifies as poor choices.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "weighDuplicateAbilitiesTogether",
+              "label": "Treat duplicate ability slots as one choice",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Reduce the chance of an ability appearing twice in the same Pokémon’s slots.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            },
+            {
+              "name": "ensureTwoAbilities",
+              "label": "Give each Pokémon two different abilities when possible",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 5,
+              "help": "Try to give Pokémon two distinct ability choices where the game supports it.",
+              "when": {
+                "keys": [
+                  "abilitiesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Evolutions",
+          "fields": [
+            {
+              "name": "evolutionsMod",
+              "label": "Change evolution lines",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random evolutions"
+                  },
+                  {
+                    "value": "RANDOM_EVERY_LEVEL",
+                    "label": "Randomize each step in the evolution line"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "evosSimilarStrength",
+              "label": "Keep replacement evolutions at similar strength",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "When enabled, replacements stay close to the original evolution’s strength. Leave off for fully random evolutions.",
+              "when": {
+                "keys": [
+                  "evolutionsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVERY_LEVEL\"]": false
+                }
+              }
+            },
+            {
+              "name": "evosSameTyping",
+              "label": "Prefer evolutions with the same type",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Prefer replacement evolutions that keep the original Pokémon’s type.",
+              "when": {
+                "keys": [
+                  "evolutionsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVERY_LEVEL\"]": false
+                }
+              }
+            },
+            {
+              "name": "evosMaxThreeStages",
+              "label": "Keep evolution lines to three stages or fewer",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Avoid creating evolution lines longer than three Pokémon.",
+              "when": {
+                "keys": [
+                  "evolutionsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVERY_LEVEL\"]": false
+                }
+              }
+            },
+            {
+              "name": "evosForceChange",
+              "label": "Make sure each changed evolution is different",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Prevent a Pokémon from keeping its original evolution when possible.",
+              "when": {
+                "keys": [
+                  "evolutionsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVERY_LEVEL\"]": false
+                }
+              }
+            },
+            {
+              "name": "evosAllowAltFormes",
+              "label": "Include alternate forms as evolutions",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Allow alternate forms in evolution choices where the game supports them.",
+              "when": {
+                "keys": [
+                  "evolutionsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVERY_LEVEL\"]": false
+                }
+              }
+            },
+            {
+              "name": "changeImpossibleEvolutions",
+              "label": "Replace evolutions that are impossible in this game",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Replace trade or other hard-to-trigger evolutions with alternatives available in this game."
+            },
+            {
+              "name": "makeEvolutionsEasier",
+              "label": "Make difficult evolutions easier to trigger",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Lower difficult evolution requirements where the game supports the change."
+            },
+            {
+              "name": "removeTimeBasedEvolutions",
+              "label": "Remove evolutions that require a time of day",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Remove requirements that an evolution happen at a particular time of day."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "starters-statics-trades",
+      "label": "Starters, gifts & trades",
+      "groups": [
+        {
+          "title": "Starter Pokémon",
+          "fields": [
+            {
+              "name": "startersMod",
+              "label": "Change the starter choices",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "CUSTOM",
+                    "label": "Custom"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Any Pokémon can be a starter"
+                  },
+                  {
+                    "value": "RANDOM_WITH_TWO_EVOLUTIONS",
+                    "label": "Choose starters that can evolve twice"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "customStarters",
+              "label": "Choose your own starters",
+              "kind": {
+                "type": "multi-select-pokemon",
+                "count": 3
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "startersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"CUSTOM\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": false,
+                  "[\"RANDOM_WITH_TWO_EVOLUTIONS\"]": false
+                }
+              }
+            },
+            {
+              "name": "randomizeStartersHeldItems",
+              "label": "Randomize starter held items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give randomized held items to the starter choices."
+            },
+            {
+              "name": "banBadRandomStarterHeldItems",
+              "label": "Exclude poor starter held items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Keep poor or unusable items off randomized starters.",
+              "when": {
+                "keys": [
+                  "randomizeStartersHeldItems"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "allowStarterAltFormes",
+              "label": "Allow Alternate Formes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Allow alternate forms to be selected as starters.",
+              "when": {
+                "keys": [
+                  "startersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"CUSTOM\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"RANDOM_WITH_TWO_EVOLUTIONS\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Gift and fixed encounters",
+          "fields": [
+            {
+              "name": "staticPokemonMod",
+              "label": "Change gift and fixed Pokémon",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM_MATCHING",
+                    "label": "Randomize, keeping legendary status similar"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Any Pokémon can replace a gift or fixed encounter"
+                  },
+                  {
+                    "value": "SIMILAR_STRENGTH",
+                    "label": "Choose replacements of similar strength"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "allowStaticAltFormes",
+              "label": "Allow Alternate Formes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Allow alternate forms for gifts and fixed encounters.",
+              "when": {
+                "keys": [
+                  "staticPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_MATCHING\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"SIMILAR_STRENGTH\"]": true
+                }
+              }
+            },
+            {
+              "name": "swapStaticMegaEvos",
+              "label": "Swap Mega Evolvables",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "When possible, swap Mega-capable Pokémon with other Mega-capable Pokémon.",
+              "when": {
+                "keys": [
+                  "staticPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_MATCHING\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"SIMILAR_STRENGTH\"]": true
+                }
+              }
+            },
+            {
+              "name": "limitMainGameLegendaries",
+              "label": "Limit Main Game Legendaries",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid using too many legendary Pokémon in the main story’s fixed encounters.",
+              "when": {
+                "keys": [
+                  "staticPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_MATCHING\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"SIMILAR_STRENGTH\"]": true
+                }
+              }
+            },
+            {
+              "name": "limit600",
+              "label": "Limit 600 BST",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep Pokémon with a 600-point base-stat total out of this random pool.",
+              "when": {
+                "keys": [
+                  "staticPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_MATCHING\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"SIMILAR_STRENGTH\"]": true
+                }
+              }
+            },
+            {
+              "name": "staticLevelModified",
+              "label": "Adjust gift and fixed Pokémon levels",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Change the levels of gift Pokémon and other fixed encounters."
+            },
+            {
+              "name": "staticLevelModifier",
+              "label": "Gift/fixed Pokémon level adjustment",
+              "kind": {
+                "type": "slider",
+                "min": -50,
+                "max": 50,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "staticLevelModified"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "correctStaticMusic",
+              "label": "Correct Static Music",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Update encounter music to match the randomized fixed Pokémon when supported."
+            }
+          ]
+        },
+        {
+          "title": "In-game trades",
+          "fields": [
+            {
+              "name": "inGameTradesMod",
+              "label": "Change in-game trades",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOMIZE_GIVEN",
+                    "label": "Randomize Given Pokémon"
+                  },
+                  {
+                    "value": "RANDOMIZE_GIVEN_AND_REQUESTED",
+                    "label": "Randomize Given & Requested Pokémon"
+                  }
+                ]
+              },
+              "minGen": 2,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "randomizeInGameTradesNicknames",
+              "label": "Randomize Nicknames",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give traded Pokémon new nicknames.",
+              "when": {
+                "keys": [
+                  "inGameTradesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE_GIVEN\"]": true,
+                  "[\"RANDOMIZE_GIVEN_AND_REQUESTED\"]": true
+                }
+              }
+            },
+            {
+              "name": "randomizeInGameTradesOTs",
+              "label": "Randomize OTs",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give traded Pokémon new original-trainer names.",
+              "when": {
+                "keys": [
+                  "inGameTradesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE_GIVEN\"]": true,
+                  "[\"RANDOMIZE_GIVEN_AND_REQUESTED\"]": true
+                }
+              }
+            },
+            {
+              "name": "randomizeInGameTradesIVs",
+              "label": "Randomize IVs",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Randomize the traded Pokémon’s individual values.",
+              "when": {
+                "keys": [
+                  "inGameTradesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE_GIVEN\"]": true,
+                  "[\"RANDOMIZE_GIVEN_AND_REQUESTED\"]": true
+                }
+              }
+            },
+            {
+              "name": "randomizeInGameTradesItems",
+              "label": "Randomize Held Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Randomize items held by Pokémon received in trades.",
+              "when": {
+                "keys": [
+                  "inGameTradesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOMIZE_GIVEN\"]": true,
+                  "[\"RANDOMIZE_GIVEN_AND_REQUESTED\"]": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moves-movesets",
+      "label": "Moves & learnsets",
+      "groups": [
+        {
+          "title": "Move properties",
+          "fields": [
+            {
+              "name": "randomizeMovePowers",
+              "label": "Randomize move power",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Change how much damage moves can deal."
+            },
+            {
+              "name": "randomizeMoveAccuracies",
+              "label": "Randomize move accuracy",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Change the chance that moves hit their target."
+            },
+            {
+              "name": "randomizeMovePPs",
+              "label": "Randomize move PP",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Change how many times moves can be used before they need to be restored."
+            },
+            {
+              "name": "randomizeMoveTypes",
+              "label": "Randomize move types",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Change the elemental type assigned to moves."
+            },
+            {
+              "name": "randomizeMoveCategory",
+              "label": "Randomize physical/special categories",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 4,
+              "help": "Change whether moves use physical or special damage rules."
+            },
+            {
+              "name": "updateMoves",
+              "label": "Use updated move data",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Apply newer move data where supported by this game."
+            },
+            {
+              "name": "updateMovesToGeneration",
+              "label": "Update moves to",
+              "kind": {
+                "type": "select",
+                "options": [
+                  {
+                    "value": "0",
+                    "label": "Latest"
+                  },
+                  {
+                    "value": "6",
+                    "label": "Gen 6"
+                  },
+                  {
+                    "value": "7",
+                    "label": "Gen 7"
+                  },
+                  {
+                    "value": "8",
+                    "label": "Gen 8"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "updateMoves"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "updateMovesLegacy",
+              "label": "Legacy Updates",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Use compatibility-focused values when updating older move data.",
+              "when": {
+                "keys": [
+                  "updateMoves"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Level-up moves",
+          "fields": [
+            {
+              "name": "movesetsMod",
+              "label": "Change level-up moves",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM_PREFER_SAME_TYPE",
+                    "label": "Random moves, usually matching the Pokémon’s type"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Completely random moves from the full move pool"
+                  },
+                  {
+                    "value": "METRONOME_ONLY",
+                    "label": "Only learn Metronome"
+                  }
+                ]
+              },
+              "help": "Choose the moves Pokémon learn as they level up. Completely random uses the full move pool without type matching."
+            },
+            {
+              "name": "startWithGuaranteedMoves",
+              "label": "Give Pokémon a useful starting moveset",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Give randomized learnsets a small useful starting moveset.",
+              "when": {
+                "keys": [
+                  "movesetsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_PREFER_SAME_TYPE\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"METRONOME_ONLY\"]": false
+                }
+              }
+            },
+            {
+              "name": "guaranteedMoveCount",
+              "label": "Starting moves per Pokémon",
+              "kind": {
+                "type": "slider",
+                "min": 2,
+                "max": 4,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "startWithGuaranteedMoves"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "reorderDamagingMoves",
+              "label": "Place damaging moves later in the learnset",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Place damaging moves later so early levels are less punishing.",
+              "when": {
+                "keys": [
+                  "movesetsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_PREFER_SAME_TYPE\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"METRONOME_ONLY\"]": false
+                }
+              }
+            },
+            {
+              "name": "movesetsForceGoodDamaging",
+              "label": "Ensure some damaging moves are included",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Ensure randomized learnsets include damaging moves at the chosen percentage.",
+              "when": {
+                "keys": [
+                  "movesetsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_PREFER_SAME_TYPE\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"METRONOME_ONLY\"]": false
+                }
+              }
+            },
+            {
+              "name": "movesetsGoodDamagingPercent",
+              "label": "Minimum share of damaging moves",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 100,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "movesetsForceGoodDamaging"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "blockBrokenMovesetMoves",
+              "label": "Exclude moves that can break the game",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep moves considered game-breaking out of level-up learnsets.",
+              "when": {
+                "keys": [
+                  "movesetsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM_PREFER_SAME_TYPE\"]": true,
+                  "[\"COMPLETELY_RANDOM\"]": true,
+                  "[\"METRONOME_ONLY\"]": false
+                }
+              }
+            },
+            {
+              "name": "evolutionMovesForAll",
+              "label": "Let all Pokémon learn evolution moves",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 7,
+              "help": "Allow Pokémon to learn moves normally reserved for evolving."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trainers",
+      "label": "Trainer battles",
+      "groups": [
+        {
+          "title": "Trainer teams",
+          "fields": [
+            {
+              "name": "trainersMod",
+              "label": "Change trainer teams",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Fully random teams"
+                  },
+                  {
+                    "value": "DISTRIBUTED",
+                    "label": "Random teams spread Pokémon across trainers"
+                  },
+                  {
+                    "value": "MAINPLAYTHROUGH",
+                    "label": "Randomize the main story trainers"
+                  },
+                  {
+                    "value": "TYPE_THEMED",
+                    "label": "Give each trainer a type theme"
+                  },
+                  {
+                    "value": "TYPE_THEMED_ELITE4_GYMS",
+                    "label": "Type themes for Gyms and the Elite Four"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "rivalCarriesStarterThroughout",
+              "label": "Keep the rival’s starter on their team",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep the rival’s starter on their team throughout the story.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "trainersUsePokemonOfSimilarStrength",
+              "label": "Match the original Pokémon’s strength",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "When enabled, trainer Pokémon stay close to the original strength. Leave off for fully random teams.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "trainersMatchTypingDistribution",
+              "label": "Keep a similar mix of types on each team",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep roughly the same type mix as each trainer’s original team.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": false,
+                  "[\"MAINPLAYTHROUGH\"]": false,
+                  "[\"TYPE_THEMED\"]": false,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": false
+                }
+              }
+            },
+            {
+              "name": "trainersBlockLegendaries",
+              "label": "Exclude legendary Pokémon from trainer teams",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep legendary Pokémon out of randomized trainer teams.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "trainersBlockEarlyWonderGuard",
+              "label": "Prevent early trainers from getting Wonder Guard",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid giving early trainers Pokémon with Wonder Guard.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "trainersEnforceDistribution",
+              "label": "Enforce Distribution",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Reduce repeated Pokémon across the randomized trainer teams.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": false,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": false,
+                  "[\"TYPE_THEMED\"]": false,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": false
+                }
+              }
+            },
+            {
+              "name": "trainersEnforceMainPlaythrough",
+              "label": "Enforce Main Playthrough",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Spread choices across the main story so trainer teams vary more.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": false,
+                  "[\"DISTRIBUTED\"]": false,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": false,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": false
+                }
+              }
+            },
+            {
+              "name": "randomizeTrainerNames",
+              "label": "Randomize trainer names",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Replace trainer names with randomized names."
+            },
+            {
+              "name": "randomizeTrainerClassNames",
+              "label": "Randomize trainer classes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Replace trainer classes, such as Hiker or Lass, with randomized classes."
+            },
+            {
+              "name": "trainersForceFullyEvolved",
+              "label": "Give high-level trainers fully evolved Pokémon",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Once a trainer’s Pokémon reaches the level below, use a final evolution when one is available.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "trainersForceFullyEvolvedLevel",
+              "label": "Fully evolved Pokémon start at level",
+              "kind": {
+                "type": "slider",
+                "min": 30,
+                "max": 65,
+                "step": 1
+              },
+              "help": "This is the level at which the game starts using final evolutions for trainers.",
+              "when": {
+                "keys": [
+                  "trainersForceFullyEvolved"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "trainersLevelModified",
+              "label": "Adjust trainer Pokémon levels",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Raise or lower trainer Pokémon levels by the selected amount."
+            },
+            {
+              "name": "trainersLevelModifier",
+              "label": "Trainer level adjustment",
+              "kind": {
+                "type": "slider",
+                "min": -50,
+                "max": 50,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "trainersLevelModified"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "eliteFourUniquePokemonNumber",
+              "label": "Unique Elite Four Pokémon",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 2,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "allowTrainerAlternateFormes",
+              "label": "Allow Alternate Formes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Allow alternate forms on trainer teams.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "swapTrainerMegaEvos",
+              "label": "Swap Trainer Mega Evolvables",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Prefer replacing a trainer’s Mega-capable Pokémon with another Mega-capable Pokémon.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "additionalBossTrainerPokemon",
+              "label": "Additional Boss Trainer Pokémon",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 5,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "additionalImportantTrainerPokemon",
+              "label": "Additional Important Trainer Pokémon",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 5,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "additionalRegularTrainerPokemon",
+              "label": "Additional Regular Trainer Pokémon",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 5,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            },
+            {
+              "name": "doubleBattleMode",
+              "label": "Double Battle Mode",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Change supported trainer battles to use double-battle rules."
+            },
+            {
+              "name": "shinyChance",
+              "label": "Shiny Chance",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 5,
+              "help": "Give trainer Pokémon a chance to appear shiny."
+            },
+            {
+              "name": "betterTrainerMovesets",
+              "label": "Better Trainer Movesets",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Improve movesets for trainer Pokémon where supported.",
+              "when": {
+                "keys": [
+                  "trainersMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"DISTRIBUTED\"]": true,
+                  "[\"MAINPLAYTHROUGH\"]": true,
+                  "[\"TYPE_THEMED\"]": true,
+                  "[\"TYPE_THEMED_ELITE4_GYMS\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Trainer held items",
+          "fields": [
+            {
+              "name": "randomizeHeldItemsForBossTrainerPokemon",
+              "label": "Randomize for Boss Trainers",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give randomized held items to major boss trainers’ Pokémon."
+            },
+            {
+              "name": "randomizeHeldItemsForImportantTrainerPokemon",
+              "label": "Randomize for Important Trainers",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give randomized held items to important story trainers’ Pokémon."
+            },
+            {
+              "name": "randomizeHeldItemsForRegularTrainerPokemon",
+              "label": "Randomize for Regular Trainers",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give randomized held items to regular trainers’ Pokémon."
+            },
+            {
+              "name": "consumableItemsOnlyForTrainerPokemon",
+              "label": "Consumable Items Only",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Choose only items that trainers can use up during battle."
+            },
+            {
+              "name": "sensibleItemsOnlyForTrainerPokemon",
+              "label": "Sensible Items Only",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Avoid held items that are unlikely to help in battle."
+            },
+            {
+              "name": "highestLevelOnlyGetsItemsForTrainerPokemon",
+              "label": "Highest Level Only Gets Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Give each trainer’s held item to their highest-level Pokémon only."
+            }
+          ]
+        },
+        {
+          "title": "Totem battles",
+          "fields": [
+            {
+              "name": "totemPokemonMod",
+              "label": "Totem Randomization",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  },
+                  {
+                    "value": "SIMILAR_STRENGTH",
+                    "label": "Random (similar strength)"
+                  }
+                ]
+              },
+              "minGen": 7,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "allyPokemonMod",
+              "label": "Ally Randomization",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  },
+                  {
+                    "value": "SIMILAR_STRENGTH",
+                    "label": "Random (similar strength)"
+                  }
+                ]
+              },
+              "minGen": 7,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "auraMod",
+              "label": "Aura Randomization",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  },
+                  {
+                    "value": "SAME_STRENGTH",
+                    "label": "Same Strength"
+                  }
+                ]
+              },
+              "minGen": 7,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "randomizeTotemHeldItems",
+              "label": "Randomize Held Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 7,
+              "help": "Randomize held items for Totem Pokémon in supported games."
+            },
+            {
+              "name": "allowTotemAltFormes",
+              "label": "Allow Alternate Formes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 7,
+              "help": "Allow alternate forms for Totem Pokémon."
+            },
+            {
+              "name": "totemLevelsModified",
+              "label": "Modify Totem Levels",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 7,
+              "help": "Raise or lower Totem Pokémon levels by the selected amount."
+            },
+            {
+              "name": "totemLevelModifier",
+              "label": "Level Modifier %",
+              "kind": {
+                "type": "slider",
+                "min": -50,
+                "max": 50,
+                "step": 1
+              },
+              "minGen": 7,
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "totemLevelsModified"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wild",
+      "label": "Wild encounters",
+      "groups": [
+        {
+          "title": "Wild encounters",
+          "fields": [
+            {
+              "name": "wildPokemonMod",
+              "label": "Change wild encounters",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Fully random encounters; no strength matching"
+                  },
+                  {
+                    "value": "AREA_MAPPING",
+                    "label": "Keep encounter slots similar within each area"
+                  },
+                  {
+                    "value": "GLOBAL_MAPPING",
+                    "label": "Use one shared mapping across the game"
+                  }
+                ]
+              },
+              "help": "Choose how wild encounter slots are replaced. The unrestricted random option ignores strength matching."
+            },
+            {
+              "name": "wildPokemonRestrictionMod",
+              "label": "Choose encounter rules",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "NONE",
+                    "label": "No strength or type restrictions"
+                  },
+                  {
+                    "value": "SIMILAR_STRENGTH",
+                    "label": "Choose Pokémon of similar strength"
+                  },
+                  {
+                    "value": "CATCH_EM_ALL",
+                    "label": "Spread choices so more species can be caught"
+                  },
+                  {
+                    "value": "TYPE_THEME_AREAS",
+                    "label": "Give each area a type theme"
+                  }
+                ]
+              },
+              "help": "Extra restrictions for wild choices. ‘No restrictions’ gives the most unpredictable results.",
+              "when": {
+                "keys": [
+                  "wildPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"AREA_MAPPING\"]": true,
+                  "[\"GLOBAL_MAPPING\"]": true
+                }
+              }
+            },
+            {
+              "name": "useTimeBasedEncounters",
+              "label": "Use Time-Based Encounters",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Keep morning, day, and night encounter tables separate where supported."
+            },
+            {
+              "name": "blockWildLegendaries",
+              "label": "Exclude legendary Pokémon from wild encounters",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep legendary Pokémon out of wild encounters.",
+              "when": {
+                "keys": [
+                  "wildPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"AREA_MAPPING\"]": true,
+                  "[\"GLOBAL_MAPPING\"]": true
+                }
+              }
+            },
+            {
+              "name": "useMinimumCatchRate",
+              "label": "Make Pokémon easier to catch",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Set a floor for how easy wild Pokémon are to catch."
+            },
+            {
+              "name": "minimumCatchRateLevel",
+              "label": "Minimum catch rate",
+              "kind": {
+                "type": "slider",
+                "min": 1,
+                "max": 5,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "useMinimumCatchRate"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "randomizeWildPokemonHeldItems",
+              "label": "Randomize Held Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Randomize items held by wild Pokémon."
+            },
+            {
+              "name": "banBadRandomWildPokemonHeldItems",
+              "label": "Ban Bad Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 2,
+              "help": "Keep poor or unusable items off wild Pokémon.",
+              "when": {
+                "keys": [
+                  "randomizeWildPokemonHeldItems"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "balanceShakingGrass",
+              "label": "Balance Shaking Grass",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 5,
+              "maxGen": 5,
+              "help": "Balance shaking-grass encounters with the regular area encounters."
+            },
+            {
+              "name": "wildLevelsModified",
+              "label": "Adjust wild Pokémon levels",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Raise or lower wild Pokémon levels by the selected amount."
+            },
+            {
+              "name": "wildLevelModifier",
+              "label": "Wild level adjustment",
+              "kind": {
+                "type": "slider",
+                "min": -50,
+                "max": 50,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "wildLevelsModified"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "allowWildAltFormes",
+              "label": "Allow Alternate Formes",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Allow alternate forms in wild encounters.",
+              "when": {
+                "keys": [
+                  "wildPokemonMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"AREA_MAPPING\"]": true,
+                  "[\"GLOBAL_MAPPING\"]": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tms-tutors",
+      "label": "TMs, HMs & tutors",
+      "groups": [
+        {
+          "title": "TM and HM moves",
+          "fields": [
+            {
+              "name": "tmsMod",
+              "label": "Change TM and HM moves",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "tmLevelUpMoveSanity",
+              "label": "Level Up Move Sanity",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Avoid TMs that duplicate moves Pokémon already learn early.",
+              "when": {
+                "keys": [
+                  "tmsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "keepFieldMoveTMs",
+              "label": "Keep required field moves as TMs",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep key field moves available as TMs where the game supports it.",
+              "when": {
+                "keys": [
+                  "tmsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "fullHMCompat",
+              "label": "Let every Pokémon learn every HM",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Let every Pokémon learn every HM."
+            },
+            {
+              "name": "tmsForceGoodDamaging",
+              "label": "Force Good Damaging Moves",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep a share of randomized TMs as useful damaging moves.",
+              "when": {
+                "keys": [
+                  "tmsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "tmsGoodDamagingPercent",
+              "label": "Good Damaging %",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 100,
+                "step": 1
+              },
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "tmsForceGoodDamaging"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "blockBrokenTMMoves",
+              "label": "Block Broken Moves",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep moves considered game-breaking out of randomized TMs.",
+              "when": {
+                "keys": [
+                  "tmsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "tmsFollowEvolutions",
+              "label": "Follow Evolutions (Compat)",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep TM compatibility related across a Pokémon’s evolution line."
+            },
+            {
+              "name": "tmsHmsCompatibilityMod",
+              "label": "Choose who can learn each TM/HM",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM_PREFER_TYPE",
+                    "label": "Random (prefer type)"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Completely Random"
+                  },
+                  {
+                    "value": "FULL",
+                    "label": "Full Compatibility"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            }
+          ]
+        },
+        {
+          "title": "Move tutor moves",
+          "fields": [
+            {
+              "name": "moveTutorMovesMod",
+              "label": "Change move tutor moves",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  }
+                ]
+              },
+              "minGen": 3,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "tutorLevelUpMoveSanity",
+              "label": "Level Up Move Sanity",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Avoid tutor moves that duplicate moves Pokémon already learn early.",
+              "when": {
+                "keys": [
+                  "moveTutorMovesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "keepFieldMoveTutors",
+              "label": "Keep Field Move Tutors",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep key field moves available from move tutors where supported.",
+              "when": {
+                "keys": [
+                  "moveTutorMovesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "tutorsForceGoodDamaging",
+              "label": "Force Good Damaging Moves",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep a share of randomized tutor moves as useful damaging moves.",
+              "when": {
+                "keys": [
+                  "moveTutorMovesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "tutorsGoodDamagingPercent",
+              "label": "Good Damaging %",
+              "kind": {
+                "type": "slider",
+                "min": 0,
+                "max": 100,
+                "step": 1
+              },
+              "minGen": 3,
+              "help": "Turn this on to apply this optional rule during randomization.",
+              "when": {
+                "keys": [
+                  "tutorsForceGoodDamaging"
+                ],
+                "table": {
+                  "[false]": false,
+                  "[true]": true
+                }
+              }
+            },
+            {
+              "name": "blockBrokenTutorMoves",
+              "label": "Block Broken Moves",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep moves considered game-breaking out of the tutor list.",
+              "when": {
+                "keys": [
+                  "moveTutorMovesMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "tutorFollowEvolutions",
+              "label": "Follow Evolutions (Compat)",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep tutor compatibility related across a Pokémon’s evolution line."
+            },
+            {
+              "name": "moveTutorsCompatibilityMod",
+              "label": "Choose who can learn each tutor move",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM_PREFER_TYPE",
+                    "label": "Random (prefer type)"
+                  },
+                  {
+                    "value": "COMPLETELY_RANDOM",
+                    "label": "Completely Random"
+                  },
+                  {
+                    "value": "FULL",
+                    "label": "Full Compatibility"
+                  }
+                ]
+              },
+              "minGen": 3,
+              "help": "Turn this on to apply this optional rule during randomization."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "label": "Items & shops",
+      "groups": [
+        {
+          "title": "Items found in the world",
+          "fields": [
+            {
+              "name": "fieldItemsMod",
+              "label": "Change items found in the world",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "SHUFFLE",
+                    "label": "Shuffle"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  },
+                  {
+                    "value": "RANDOM_EVEN",
+                    "label": "Random (even distribution)"
+                  }
+                ]
+              },
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "banBadRandomFieldItems",
+              "label": "Ban Bad Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Keep poor or unusable items out of ground and hidden pickups.",
+              "when": {
+                "keys": [
+                  "fieldItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": false,
+                  "[\"RANDOM\"]": true,
+                  "[\"RANDOM_EVEN\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Shop inventory",
+          "fields": [
+            {
+              "name": "shopItemsMod",
+              "label": "Change shop inventories",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "SHUFFLE",
+                    "label": "Shuffle"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  }
+                ]
+              },
+              "minGen": 3,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "banBadRandomShopItems",
+              "label": "Ban Bad Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep poor or unusable items out of shop inventories.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "banRegularShopItems",
+              "label": "Ban Regular Shop Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Exclude common items from randomized shops.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "banOPShopItems",
+              "label": "Ban OP Shop Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Exclude unusually powerful items from randomized shops.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "balanceShopPrices",
+              "label": "Balance Shop Prices",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Adjust shop prices to better match randomized item values.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": true,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "guaranteeEvolutionItems",
+              "label": "Guarantee Evolution Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep evolution items available after shop randomization.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": true,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            },
+            {
+              "name": "guaranteeXItems",
+              "label": "Guarantee X Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep battle-stat booster items available in shops.",
+              "when": {
+                "keys": [
+                  "shopItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"SHUFFLE\"]": true,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "title": "Items found by Pokémon",
+          "fields": [
+            {
+              "name": "pickupItemsMod",
+              "label": "Change items found by Pokémon",
+              "kind": {
+                "type": "radio",
+                "options": [
+                  {
+                    "value": "UNCHANGED",
+                    "label": "Unchanged"
+                  },
+                  {
+                    "value": "RANDOM",
+                    "label": "Random"
+                  }
+                ]
+              },
+              "minGen": 3,
+              "help": "Turn this on to apply this optional rule during randomization."
+            },
+            {
+              "name": "banBadRandomPickupItems",
+              "label": "Ban Bad Items",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 3,
+              "help": "Keep poor or unusable items out of Pokémon pickup pools.",
+              "when": {
+                "keys": [
+                  "pickupItemsMod"
+                ],
+                "table": {
+                  "[\"UNCHANGED\"]": false,
+                  "[\"RANDOM\"]": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "misc",
+      "label": "Game tweaks & general options",
+      "groups": [
+        {
+          "title": "Whole-game rules",
+          "fields": [
+            {
+              "name": "raceMode",
+              "label": "Race Mode",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Enable settings useful for races, including a shareable check value and fewer randomization logs."
+            },
+            {
+              "name": "blockBrokenMoves",
+              "label": "Exclude game-breaking moves everywhere",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "Avoid moves the randomizer identifies as game-breaking in learnsets, TMs, and tutor lists."
+            },
+            {
+              "name": "limitPokemon",
+              "label": "Limit which generations can appear",
+              "kind": {
+                "type": "checkbox"
+              },
+              "help": "When enabled, choose which generations can appear in randomized Pokémon pools."
+            },
+            {
+              "name": "banIrregularAltFormes",
+              "label": "Exclude unusual battle-only forms",
+              "kind": {
+                "type": "checkbox"
+              },
+              "minGen": 6,
+              "help": "Exclude forms that normally only appear during battle transformations."
+            }
+          ]
+        },
+        {
+          "title": "Optional game improvements",
+          "fields": [
+            {
+              "name": "currentMiscTweaks",
+              "label": "Misc Tweaks Bitfield",
+              "kind": {
+                "type": "number",
+                "min": 0,
+                "max": 2147483647
+              },
+              "help": "Optional changes to game behavior. Each tweak is applied only in games that support it."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "defaults": {
+    "romName": "",
+    "updatedFromOldVersion": false,
+    "currentRestrictions": null,
+    "currentMiscTweaks": 0,
+    "changeImpossibleEvolutions": false,
+    "makeEvolutionsEasier": false,
+    "removeTimeBasedEvolutions": false,
+    "raceMode": false,
+    "blockBrokenMoves": false,
+    "limitPokemon": false,
+    "banIrregularAltFormes": false,
+    "dualTypeOnly": false,
+    "baseStatisticsMod": "UNCHANGED",
+    "baseStatsFollowEvolutions": false,
+    "baseStatsFollowMegaEvolutions": false,
+    "assignEvoStatsRandomly": false,
+    "updateBaseStats": false,
+    "updateBaseStatsToGeneration": 0,
+    "standardizeEXPCurves": false,
+    "selectedEXPCurve": "MEDIUM_FAST",
+    "expCurveMod": "LEGENDARIES",
+    "abilitiesMod": "UNCHANGED",
+    "allowWonderGuard": true,
+    "abilitiesFollowEvolutions": false,
+    "abilitiesFollowMegaEvolutions": false,
+    "banTrappingAbilities": false,
+    "banNegativeAbilities": false,
+    "banBadAbilities": false,
+    "weighDuplicateAbilitiesTogether": false,
+    "ensureTwoAbilities": false,
+    "startersMod": "UNCHANGED",
+    "allowStarterAltFormes": false,
+    "customStarters": [
+      0,
+      0,
+      0
+    ],
+    "randomizeStartersHeldItems": false,
+    "limitMainGameLegendaries": false,
+    "limit600": false,
+    "banBadRandomStarterHeldItems": false,
+    "typesMod": "UNCHANGED",
+    "typesFollowMegaEvolutions": false,
+    "evolutionsMod": "UNCHANGED",
+    "evosSimilarStrength": false,
+    "evosSameTyping": false,
+    "evosMaxThreeStages": false,
+    "evosForceChange": false,
+    "evosAllowAltFormes": false,
+    "randomizeMovePowers": false,
+    "randomizeMoveAccuracies": false,
+    "randomizeMovePPs": false,
+    "randomizeMoveTypes": false,
+    "randomizeMoveCategory": false,
+    "updateMoves": false,
+    "updateMovesToGeneration": 0,
+    "updateMovesLegacy": false,
+    "movesetsMod": "UNCHANGED",
+    "startWithGuaranteedMoves": false,
+    "guaranteedMoveCount": 2,
+    "reorderDamagingMoves": false,
+    "movesetsForceGoodDamaging": false,
+    "movesetsGoodDamagingPercent": 0,
+    "blockBrokenMovesetMoves": false,
+    "evolutionMovesForAll": false,
+    "trainersMod": "UNCHANGED",
+    "rivalCarriesStarterThroughout": false,
+    "trainersUsePokemonOfSimilarStrength": false,
+    "trainersMatchTypingDistribution": false,
+    "trainersBlockLegendaries": true,
+    "trainersBlockEarlyWonderGuard": true,
+    "trainersEnforceDistribution": false,
+    "trainersEnforceMainPlaythrough": false,
+    "randomizeTrainerNames": false,
+    "randomizeTrainerClassNames": false,
+    "trainersForceFullyEvolved": false,
+    "trainersForceFullyEvolvedLevel": 30,
+    "trainersLevelModified": false,
+    "trainersLevelModifier": 0,
+    "eliteFourUniquePokemonNumber": 0,
+    "allowTrainerAlternateFormes": false,
+    "swapTrainerMegaEvos": false,
+    "additionalBossTrainerPokemon": 0,
+    "additionalImportantTrainerPokemon": 0,
+    "additionalRegularTrainerPokemon": 0,
+    "randomizeHeldItemsForBossTrainerPokemon": false,
+    "randomizeHeldItemsForImportantTrainerPokemon": false,
+    "randomizeHeldItemsForRegularTrainerPokemon": false,
+    "consumableItemsOnlyForTrainerPokemon": false,
+    "sensibleItemsOnlyForTrainerPokemon": false,
+    "highestLevelOnlyGetsItemsForTrainerPokemon": false,
+    "doubleBattleMode": false,
+    "shinyChance": false,
+    "betterTrainerMovesets": false,
+    "wildPokemonMod": "UNCHANGED",
+    "wildPokemonRestrictionMod": "NONE",
+    "useTimeBasedEncounters": false,
+    "blockWildLegendaries": true,
+    "useMinimumCatchRate": false,
+    "minimumCatchRateLevel": 1,
+    "randomizeWildPokemonHeldItems": false,
+    "banBadRandomWildPokemonHeldItems": false,
+    "balanceShakingGrass": false,
+    "wildLevelsModified": false,
+    "wildLevelModifier": 0,
+    "allowWildAltFormes": false,
+    "staticPokemonMod": "UNCHANGED",
+    "allowStaticAltFormes": false,
+    "swapStaticMegaEvos": false,
+    "staticLevelModified": false,
+    "staticLevelModifier": 0,
+    "correctStaticMusic": false,
+    "totemPokemonMod": "UNCHANGED",
+    "allyPokemonMod": "UNCHANGED",
+    "auraMod": "UNCHANGED",
+    "randomizeTotemHeldItems": false,
+    "totemLevelsModified": false,
+    "totemLevelModifier": 0,
+    "allowTotemAltFormes": false,
+    "tmsMod": "UNCHANGED",
+    "tmLevelUpMoveSanity": false,
+    "keepFieldMoveTMs": false,
+    "fullHMCompat": false,
+    "tmsForceGoodDamaging": false,
+    "tmsGoodDamagingPercent": 0,
+    "blockBrokenTMMoves": false,
+    "tmsFollowEvolutions": false,
+    "tmsHmsCompatibilityMod": "UNCHANGED",
+    "moveTutorMovesMod": "UNCHANGED",
+    "tutorLevelUpMoveSanity": false,
+    "keepFieldMoveTutors": false,
+    "tutorsForceGoodDamaging": false,
+    "tutorsGoodDamagingPercent": 0,
+    "blockBrokenTutorMoves": false,
+    "tutorFollowEvolutions": false,
+    "moveTutorsCompatibilityMod": "UNCHANGED",
+    "inGameTradesMod": "UNCHANGED",
+    "randomizeInGameTradesNicknames": false,
+    "randomizeInGameTradesOTs": false,
+    "randomizeInGameTradesIVs": false,
+    "randomizeInGameTradesItems": false,
+    "fieldItemsMod": "UNCHANGED",
+    "banBadRandomFieldItems": false,
+    "shopItemsMod": "UNCHANGED",
+    "banBadRandomShopItems": false,
+    "banRegularShopItems": false,
+    "banOPShopItems": false,
+    "balanceShopPrices": false,
+    "guaranteeEvolutionItems": false,
+    "guaranteeXItems": false,
+    "pickupItemsMod": "UNCHANGED",
+    "banBadRandomPickupItems": false
+  },
+  "recommended": {
+    "startersMod": "COMPLETELY_RANDOM",
+    "evolutionsMod": "RANDOM",
+    "evosSimilarStrength": false,
+    "trainersMod": "RANDOM",
+    "trainersUsePokemonOfSimilarStrength": false,
+    "trainersForceFullyEvolved": true,
+    "trainersForceFullyEvolvedLevel": 30,
+    "wildPokemonMod": "RANDOM",
+    "wildPokemonRestrictionMod": "NONE",
+    "blockWildLegendaries": false
+  }
+}
