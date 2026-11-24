@@ -1,9 +1,75 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f4ef"><title>Pocket Randomizer</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="settings.css?v=full-settings-2026-11-23"><script src="https://cjrtnc.leaningtech.com/5.0/loader.js"></script></head>
-<body><div class="page-wrap"><header class="topbar"><a class="brand" href="#top"><span class="brand-mark">✳</span><span>POCKET<span class="brand-light">RANDOMIZER</span></span></a><div class="top-right"><span class="local-indicator"><i></i><span id="engine-state">Runs in your browser</span></span></div></header>
-<main id="top"><section class="hero"><div class="hero-copy"><p class="eyebrow">YOUR GAME. YOUR RULES.</p><h1>A new adventure<br>starts <em>here.</em></h1><p class="intro">Choose a Pokémon game, pick what to remix, and download a fresh adventure. Your ROM stays in this browser and is never sent to a server.</p><div class="format-list"><span>GAME BOY ADVANCE</span><b>·</b><span>NINTENDO DS</span><b>·</b><span>NINTENDO 3DS</span></div></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orb"><span>✳</span></div><div class="spark spark-one">✦</div><div class="spark spark-two">✧</div><div class="spark spark-three">✦</div><span class="art-caption">A LITTLE MORE<br>UNPREDICTABLE</span></div></section>
-<section class="workspace"><div class="section-heading"><div><span class="step">01</span><h2>Choose your game</h2></div><p>Start with a ROM file you own.</p></div><label class="dropzone" id="dropzone" for="rom-file"><input id="rom-file" type="file" accept=".gba,.nds,.3ds,application/octet-stream"><span class="upload-icon">↥</span><span class="drop-title" id="drop-title">Drop your game file here</span><span class="drop-sub" id="drop-sub">or <u>browse files</u> <b>·</b> .gba, .nds, .3ds</span><span class="file-chip" id="file-chip" hidden></span></label>
-<div class="section-heading rules-heading"><div><span class="step">02</span><h2>Customize your randomizer</h2></div><div class="settings-actions"><button class="text-button" id="reset-settings">Restore recommended rules</button><button class="text-button" id="toggle-settings">Expand all</button></div></div>
-<p class="settings-intro">Start with the recommended random setup, then open any section to fine-tune it. Game-specific options only take effect when the selected ROM supports them.</p><div id="settings-groups" class="settings-groups" aria-live="polite"><p class="settings-loading">Loading randomizer settings…</p></div>
-<aside class="note"><span>ⓘ</span><p><strong>About 3DS games:</strong> the result downloads as a LayeredFS ZIP, ready to use with a compatible 3DS mod setup. Decrypted ROMs are required. Large ROM files may need several gigabytes of free browser memory.</p></aside><div class="action-row"><p id="privacy-note">The randomizer runs in your browser. Your game file is not uploaded.</p><button class="button button-primary" id="randomize" disabled><span>Randomize game</span><span class="arrow">↗</span></button></div><div class="status-message" id="status-message" role="status" aria-live="polite"></div></section>
-<section class="how"><div><span class="step">03</span><h2>Ready when you are</h2></div><p>The Java runtime starts in this tab on your first randomization. It may take a little longer the first time. Keep your original ROM as a backup.</p></section><footer><span>POCKET RANDOMIZER</span><span>Built with CheerpJ <b>✳</b></span></footer></main></div><script src="app.js?v=full-settings-2026-11-23" defer></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f6ec">
+    <title>Pocket Randomizer</title>
+    <link rel="stylesheet" href="site/styles.css">
+    <link rel="stylesheet" href="settings.css">
+    <script defer src="https://cjrtnc.leaningtech.com/5.0/loader.js"></script>
+  </head>
+  <body id="top">
+    <header class="masthead">
+      <div class="topbar">
+        <a class="brand" href="#top"><span class="pokeball" aria-hidden="true"></span>Pocket Randomizer</a>
+        <div class="top-right">
+          <span class="local-indicator on"><i aria-hidden="true"></i><span id="engine-state">Runs in your browser</span></span>
+        </div>
+      </div>
+    </header>
+    <main class="page-wrap">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">Pokémon ROM<br><em>Randomizer</em></h1>
+          <p class="intro">Remix your starters, trainer battles, and wild encounters for a fresh playthrough. Your ROM stays in this browser.</p>
+          <ul class="format-list" aria-label="Supported systems">
+            <li>Game Boy Advance</li><li>Nintendo DS</li><li>Nintendo 3DS</li>
+          </ul>
+        </div>
+        <div class="handheld" aria-hidden="true">
+          <div class="screen"><img src="site/route.webp" width="1024" height="576" alt="" fetchpriority="high"></div>
+          <div class="console-trim"><i></i><b></b></div>
+        </div>
+      </section>
+      <div class="workspace">
+        <section class="panel" aria-labelledby="upload-heading">
+          <div class="section-heading">
+            <div class="heading-title"><span class="step" aria-hidden="true">01</span><h2 id="upload-heading">Choose your game</h2></div>
+          </div>
+          <label class="dropzone" id="dropzone" for="rom-file">
+            <input id="rom-file" type="file" accept=".gba,.nds,.3ds,application/octet-stream">
+            <span class="upload-icon" aria-hidden="true"><span class="cartridge"></span></span>
+            <span class="file-copy"><strong class="drop-title" id="drop-title">Drop your ROM here</strong>
+              <span class="drop-sub" id="drop-sub">Use a .gba, .nds, or .3ds game file you own.</span>
+              <span class="file-chip" id="file-chip" hidden></span>
+            </span>
+            <span class="browse-button">Choose file <span aria-hidden="true">↗</span></span>
+          </label>
+
+        </section>
+        <section class="panel" aria-labelledby="rules-heading">
+          <div class="section-heading rules-heading">
+            <div class="heading-title"><span class="step" aria-hidden="true">02</span><h2 id="rules-heading">Pick your rules</h2></div>
+            <div class="settings-actions"><button class="text-button" id="reset-settings">Restore recommended rules</button><button class="text-button" id="toggle-settings">Expand all</button></div>
+          </div>
+          <p class="settings-intro">Start with the recommended rules, then open a section to fine-tune your game. Available options depend on your ROM.</p>
+          <div id="settings-groups" class="settings-groups" aria-live="polite"><p class="settings-loading">Loading randomizer settings…</p></div>
+          <aside class="note"><p><strong>Playing a 3DS game?</strong> Your result downloads as a LayeredFS ZIP. Use a decrypted ROM. Large games may need several gigabytes of free browser memory.</p></aside>
+        </section>
+        <section class="panel finish" aria-labelledby="finish-heading">
+          <div class="action-row">
+            <div>
+              <div class="heading-title"><span class="step" aria-hidden="true">03</span><h2 id="finish-heading">Start your adventure</h2></div>
+              <p id="privacy-note">The Java runtime starts in this tab on your first randomization. This can take a little longer the first time. Keep your original ROM as a backup.</p>
+            </div>
+            <button class="button button-primary" id="randomize" disabled><span>Randomize game</span><span aria-hidden="true">▶</span></button>
+          </div>
+          <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
+        </section>
+      </div>
+      <footer><span class="footer-brand"><i class="pokeball" aria-hidden="true"></i>Pocket Randomizer</span><span>Built with CheerpJ</span></footer>
+    </main>
+    <script src="app.js" defer></script>
+  </body>
+</html>

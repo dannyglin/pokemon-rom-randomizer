@@ -1,7 +1,7 @@
 import http from 'node:http';
 import { spawn } from 'node:child_process';
-import { createReadStream, createWriteStream, readFile } from 'node:fs';
-import { mkdtemp, mkdir, readdir, rm, stat } from 'node:fs/promises';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { mkdtemp, mkdir, readdir, readFile, rm, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { basename, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,7 +12,7 @@ const jar = join(root, 'engine', 'PokeRandoZX.jar');
 const webRoot = join(root, 'site');
 const port = Number(process.env.PORT || 4769);
 const allowedOrigin = process.env.SITE_ORIGIN || 'https://dannyglin.github.io';
-const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml' };
+const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.webp':'image/webp' };
 
 function send(res, status, body, type='application/json; charset=utf-8') {
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control':'no-store' }); res.end(typeof body === 'string' ? body : JSON.stringify(body));

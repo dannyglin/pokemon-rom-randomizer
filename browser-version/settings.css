@@ -1,1 +1,276 @@
-.settings-actions{display:flex;align-items:center;gap:18px}.settings-intro{margin:-4px 0 14px;color:#777970;font-size:12px;line-height:1.65}.settings-groups{display:grid;gap:10px}.settings-loading{padding:16px;border:1px solid var(--line);border-radius:8px;color:#777970}.settings-section{overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#faf9f5}.settings-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 18px;cursor:pointer;list-style:none}.settings-summary::-webkit-details-marker{display:none}.settings-summary:after{content:'+';margin-left:auto;color:#71883b;font-size:20px;line-height:1}.settings-section[open]>.settings-summary:after{content:'−'}.settings-section-title{font:700 16px var(--display);letter-spacing:-.02em}.settings-count{color:#85877e;font:10px 'DM Mono',monospace;white-space:nowrap}.settings-section-help{margin:0;padding:0 18px 14px;color:#777970;font-size:11px;line-height:1.6}.settings-section-content{padding:0 18px 18px}.settings-group{padding-top:15px;border-top:1px solid #e8e7df}.settings-group+.settings-group{margin-top:18px}.settings-group-title{margin:0 0 12px;font:700 13px var(--display);color:#637d2f}.settings-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.setting-field{min-width:0;padding:12px;border:1px solid #e8e7df;border-radius:7px;background:#fffefa}.setting-field[hidden],.custom-starters[hidden],.generation-limits[hidden]{display:none!important}.setting-label{display:block;margin:0 0 7px;font-size:11px;font-weight:700;line-height:1.45}.setting-help{display:block;margin-top:7px;color:#777970;font-size:10px;line-height:1.55}.setting-field select,.setting-field input[type=number]{box-sizing:border-box;width:100%;min-height:36px;padding:7px 9px;border:1px solid #d6d7ce;border-radius:5px;background:#fff;color:#272922;font:11px var(--font)}.setting-field select:focus,.setting-field input:focus,.setting-field input[type=range]:focus{outline:2px solid #b8ca82;outline-offset:1px}.setting-checkbox{display:flex;align-items:flex-start;gap:9px;cursor:pointer}.setting-checkbox>input{flex:none;width:15px;height:15px;margin:2px 0 0;accent-color:#7f9c38}.setting-copy{display:grid;gap:4px}.setting-copy strong{font-size:11px;font-weight:700;line-height:1.4}.setting-copy small{color:#777970;font-size:10px;line-height:1.55}.range-row{display:flex;align-items:center;gap:12px}.range-row input{width:100%;accent-color:#819b42}.range-value{min-width:40px;text-align:right;color:#586f2d;font:11px 'DM Mono',monospace}.generation-limits,.custom-starters{margin-top:12px;padding-top:10px;border-top:1px solid #ecebe3}.generation-checkboxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.mini-check{display:flex;align-items:flex-start;gap:6px;color:#54564f;font-size:10px;line-height:1.4}.mini-check input{flex:none;margin:1px 0 0;accent-color:#819b42}.custom-starter-field{margin-top:8px}.misc-tweaks-list{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.misc-tweaks-list>.setting-help{grid-column:1/-1;margin:0}.misc-tweaks-list .setting-checkbox{padding:10px;border:1px solid #e8e7df;border-radius:6px;background:#fffefa}@media(max-width:760px){.settings-actions{gap:8px;flex-wrap:wrap;justify-content:flex-end}.settings-actions .text-button{font-size:10px}.settings-summary{padding:14px}.settings-section-title{font-size:14px}.settings-section-content{padding:0 14px 14px}.settings-fields,.misc-tweaks-list{grid-template-columns:1fr}.settings-section-help{padding:0 14px 12px}.generation-checkboxes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.settings-intro,
+.settings-loading,
+.settings-section-help {
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.6;
+}
+
+.settings-intro {
+  max-width: 78ch;
+  margin: 0 0 18px;
+}
+
+.settings-groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.settings-loading,
+.settings-section {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fffef8;
+}
+
+.settings-loading {
+  margin: 0;
+  padding: 16px;
+}
+
+.settings-section {
+  box-shadow: 0 2px 0 #dfdfcf;
+}
+
+.settings-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.settings-summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-summary::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: solid var(--forest);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.settings-summary:hover,
+.settings-section[open] > .settings-summary {
+  background: #edf2e4;
+}
+
+.settings-section[open] > .settings-summary {
+  border-bottom: 1px solid var(--line);
+  border-radius: 4px 4px 0 0;
+}
+
+.settings-section[open] > .settings-summary::after {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.settings-section-title {
+  color: var(--ink);
+  font: 700 1rem/1.4 var(--font);
+}
+
+.settings-count,
+.range-value {
+  color: var(--forest);
+  font: 600 .75rem/1.4 var(--mono);
+  white-space: nowrap;
+}
+
+.settings-section-help {
+  margin: 15px 18px 12px;
+}
+
+.settings-section-content {
+  padding: 0 18px 18px;
+}
+
+.settings-group {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.settings-group + .settings-group {
+  margin-top: 20px;
+}
+
+.settings-group-title {
+  margin: 0 0 10px;
+  color: var(--forest);
+  font: 700 .875rem/1.4 var(--font);
+}
+
+.settings-fields,
+.misc-tweaks-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.setting-field,
+.custom-starters,
+.misc-tweaks-list .setting-checkbox {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid #d7d9c9;
+  border-radius: 4px;
+  background: #fafaf2;
+}
+
+.setting-field[hidden],
+.custom-starters[hidden],
+.generation-limits[hidden] {
+  display: none;
+}
+
+.setting-label,
+.setting-copy strong {
+  color: var(--ink);
+  font: 700 .875rem/1.4 var(--font);
+}
+
+.setting-label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.setting-help,
+.setting-copy small,
+.mini-check {
+  color: var(--muted);
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.setting-help {
+  display: block;
+  margin: 7px 0 0;
+}
+
+.setting-field select,
+.settings-fields input[type="number"] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  padding: 7px 9px;
+  border: 1px solid #818b78;
+  border-radius: 4px;
+  background: #fffefa;
+  color: var(--ink);
+  font: .875rem/1.4 var(--font);
+}
+
+.settings-section input,
+.settings-section select {
+  accent-color: var(--forest);
+}
+
+.settings-summary:focus-visible,
+.settings-section input:focus-visible,
+.settings-section select:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 2px;
+}
+
+.setting-checkbox,
+.mini-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.setting-checkbox > input,
+.mini-check input {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+}
+
+.setting-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+}
+
+.range-value {
+  min-width: 4ch;
+  text-align: end;
+}
+
+.generation-limits {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.generation-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.generation-checkboxes .mini-check:last-child,
+.misc-tweaks-list,
+.misc-tweaks-list > .setting-help {
+  grid-column: 1 / -1;
+}
+
+.custom-starter-field {
+  margin-top: 10px;
+}
+
+@media (max-width: 760px) {
+  .rules-heading:has(.settings-actions) {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .settings-fields,
+  .misc-tweaks-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .settings-summary {
+    gap: 8px;
+    padding: 13px 12px;
+  }
+
+  .settings-section-content {
+    padding: 0 12px 12px;
+  }
+
+  .settings-section-help {
+    margin-inline: 12px;
+  }
+
+  .setting-field select,
+  .settings-fields input[type="number"] {
+    font-size: 1rem;
+  }
+}
