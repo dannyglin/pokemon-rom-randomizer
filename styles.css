@@ -143,7 +143,7 @@ a { color: var(--forest); }
   border-radius: 5px;
   background: #7eab85;
 }
-.screen img { display: block; width: 100%; height: auto; aspect-ratio: 16/8.5; object-fit: cover; }
+.screen img { display: block; width: 100%; height: auto; height: auto; aspect-ratio: 1.025; object-fit: contain; }
 .console-trim {
   height: 17px;
   margin-inline: 7px;
@@ -291,7 +291,7 @@ footer .pokeball::after { border-width: 1px; }
   .hero h1 { font-size: clamp(38px, 9.5vw, 54px); }
   .intro { margin: 12px 0 14px; }
   .handheld { max-width: 470px; width: calc(100% - 4px); justify-self: center; }
-  .screen img { aspect-ratio: 2.55; }
+  .screen img { aspect-ratio: 1.025; }
   .workspace { gap: 15px; }
   .rules-heading { align-items: flex-start; flex-wrap: wrap; }
   .dropzone { display: grid; grid-template-columns: 42px minmax(0,1fr); }
